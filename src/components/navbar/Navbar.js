@@ -43,7 +43,7 @@ const NavBar = ({ isRLoggedIn, setisRLoggedIn,isDLoggedIn, setisDLoggedIn }) => 
                 </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link active" href="/">
+                <a className="nav-link active" href="#section3">
                   About
                 </a>
               </li>

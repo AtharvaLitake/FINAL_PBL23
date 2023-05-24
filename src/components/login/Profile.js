@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import './Profile.css';
-import logo from '../images/itachi.jpg';
+import person from '../images/person.png';
 
 const Profile = () => {
     const [data1, setData1] = useState([]);
@@ -26,12 +26,12 @@ const Profile = () => {
     };
 
     return (
-        <div className="profile">
-            <div className="image">
-                <img src={logo} alt="Profile" />
+        <div className="profile1">
+            <div className="card_image">
+                <img src={person} alt="Profile" />
             </div>
-            <div className="card-struct">
-                <h5 className="card-title">Profile</h5>
+            <div className="card_struct">
+                <h5 className="card_title"><i class="fa-solid fa-user"></i>&nbsp;Profile</h5>
                 <p>
                     Name: {data1.name} <br />
                     <hr />
