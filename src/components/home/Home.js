@@ -6,14 +6,11 @@ import Description from '../description/Description'
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import React, { useEffect } from 'react';
-import logo from "../images/logo.png";
 import mihir from "../images/mihir.jpg";
 import atharva from "../images/atharva.jpg";
 import ganesh from "../images/ganesh.jpg";
 import vishal from "../images/vishal.jpg"
 import jaju from "../images/jaju.jpg"
-import { useRef } from 'react';
-
 
 const Home = () => {
 

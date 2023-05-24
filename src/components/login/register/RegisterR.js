@@ -137,7 +137,6 @@ const RegisterR = ({ isRLoggedIn, setisRLoggedIn,isDLoggedIn, setisDLoggedIn }) 
                             <form autoComplete="off">
                                 <h1>Create your account</h1>
                                 {formErrors.backendError && <p className="errors error">{formErrors.backendError}</p>}
-                                <p className="errors name">{formErrors.name}</p>
                                 <input
                                     type="text"
                                     name="name"
@@ -146,7 +145,7 @@ const RegisterR = ({ isRLoggedIn, setisRLoggedIn,isDLoggedIn, setisDLoggedIn }) 
                                     onChange={changeHandler}
                                     value={user.name}
                                 />
-                                <p className="errors email">{formErrors.email}</p>
+                                 <p className="errors name">{formErrors.name}</p>
                                 <input
                                     type="email"
                                     name="email"
@@ -155,7 +154,7 @@ const RegisterR = ({ isRLoggedIn, setisRLoggedIn,isDLoggedIn, setisDLoggedIn }) 
                                     onChange={changeHandler}
                                     value={user.email}
                                 />
-                                <p className="errors phone">{formErrors.mobile}</p>
+                                <p className="errors email">{formErrors.email}</p>
                                 <input
                                     type="text"
                                     name="mobile"
@@ -164,7 +163,7 @@ const RegisterR = ({ isRLoggedIn, setisRLoggedIn,isDLoggedIn, setisDLoggedIn }) 
                                     onChange={changeHandler}
                                     value={user.mobile}
                                 />
-                                <p className="errors pass">{formErrors.password}</p>
+                                 <p className="errors phone">{formErrors.mobile}</p>
                                 <input
                                     type="password"
                                     name="password"
@@ -173,7 +172,7 @@ const RegisterR = ({ isRLoggedIn, setisRLoggedIn,isDLoggedIn, setisDLoggedIn }) 
                                     onChange={changeHandler}
                                     value={user.password}
                                 />
-                                <p className="errors pass">{formErrors.cpassword}</p>
+                                <p className="errors pass">{formErrors.password}</p>
                                 <input
                                     type="password"
                                     name="cpassword"
@@ -182,6 +181,7 @@ const RegisterR = ({ isRLoggedIn, setisRLoggedIn,isDLoggedIn, setisDLoggedIn }) 
                                     onChange={changeHandler}
                                     value={user.cpassword}
                                 />
+                                <p className="errors pass">{formErrors.cpassword}</p>
                                 <button type="submit" onClick={signupHandler}>
                                     Register &nbsp;<i className="fa-sharp fa-solid fa-address-card"></i>
                                 </button>

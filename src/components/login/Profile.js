@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import './Profile.css';
 import logo from '../images/itachi.jpg';
-import Cards1 from "../cards/Cards1";
 
 const Profile = () => {
     const [data1, setData1] = useState([]);

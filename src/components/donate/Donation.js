@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "./Donation.css";
-import { NavLink } from "react-router-dom";
 import Cards1 from "../cards/Cards1";
 import logo from "../images/logo.png";
 import { useNavigate } from "react-router-dom";
@@ -93,7 +92,6 @@ const Donation = () => {
 
         <div className="inputcontainer">
           <h1>Donation page</h1>
-          {error && <p className="error-message">{error}</p>}
           <form autoComplete="off">
             <div className="input_group">
               <label htmlFor="name">Food name</label>
@@ -141,6 +139,7 @@ const Donation = () => {
                 placeholder="e.g.Curry,Chapati"
                 onChange={changeHandler}
               />
+               <h>{error && <p className="error-message">{error}</p>}</h>
             </div>
               <button className="submit-btn1" type="submit" onClick={handleSubmit}>
                 Submit &nbsp;<i class="fa-solid fa-thumbs-up"></i>
