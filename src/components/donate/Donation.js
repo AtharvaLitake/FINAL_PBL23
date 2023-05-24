@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 const Donation = () => {
   const [data, setData] = useState([])
   const navigate = useNavigate();
-  const [isSubmit, setIsSubmit] = useState(false);
   const [error, setError] = useState(null);
   const [user, setUserDetails] = useState({
     name: '',
@@ -32,35 +31,58 @@ const Donation = () => {
 
   const fetchData = async () => {
     try {
-      let response;
-      response = await fetch(`/SeeItems`);
+      const response = await fetch(`/SeeItems`);
       if (response.ok) {
-        const responseData = await response.text();
-        const jsonData = JSON.parse(responseData);
-        setData(jsonData);
+        const responseData = await response.json();
+        setData(responseData);
         setError(null);
-        console.log(jsonData)
+        console.log(responseData);
       } else {
         throw new Error('Error fetching data');
       }
     } catch (error) {
+      setError('Failed to fetch data. Please try again.');
+      console.log(error);
+    }
+  };
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    // Check for errors
+    if (user.quantity <= 0) {
+      setError('Quantity must be a positive number');
+      return;
+    }
+  
+    const currentDate = new Date();
+    const selectedDate = new Date(user.expiryDate);
+  
+    if (selectedDate <= currentDate) {
+      setError('Expiry date should be in the future');
+      return;
+    }
+  
+    try {
+      const response = await fetch('/AddItem', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user)
+      });
+  
+      if (!response.ok) {
+        throw new Error('Error donating food');
+      }
+  
+      fetchData();
+      navigate('/success');
+    } catch (error) {
       setError(error.message);
     }
   };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    fetch('/AddItem', {
-
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(user)
-    })
-    fetchData();
-    navigate('/success');
-  }
+  
 
   return (
     <div className="main_container">
@@ -71,6 +93,7 @@ const Donation = () => {
 
         <div className="inputcontainer">
           <h1>Donation page</h1>
+          {error && <p className="error-message">{error}</p>}
           <form autoComplete="off">
             <div className="input_group">
               <label htmlFor="name">Food name</label>

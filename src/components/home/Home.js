@@ -12,13 +12,15 @@ import atharva from "../images/atharva.jpg";
 import ganesh from "../images/ganesh.jpg";
 import vishal from "../images/vishal.jpg"
 import jaju from "../images/jaju.jpg"
-function Animation()
-{
+import { useRef } from 'react';
+
+
+const Home = () => {
+
   useEffect(()=>{
     AOS.init();
   },[])
-}
-const Home = (props) => {
+ 
   return (
     <div clasName="Home">
 
@@ -26,11 +28,11 @@ const Home = (props) => {
         <Carousel />
       </div>
 
-      <div className="container2" data-aos="flip">
+      <div className="container2" data-aos="flip" id="section2">
         <RD/>
       </div>
 
-      <div className="container3">
+      <div className="container3" id="section3">
         <Description />
       </div>
       <div className="team-section">

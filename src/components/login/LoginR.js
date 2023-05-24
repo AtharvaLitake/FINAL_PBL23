@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./Login.css";
-import axios from "axios";
 import { useNavigate, NavLink } from "react-router-dom";
 import Rlog from "../images/Receiverlog.png";
 
-const Login = ({ setUserState }) => {
+const LoginR = ({ isRLoggedIn, setisRLoggedIn,isDLoggedIn, setisDLoggedIn }) => {
   const navigate = useNavigate();
   const [formErrors, setFormErrors] = useState({});
-  const [isSubmit, setIsSubmit] = useState(false);
   const [user, setUserDetails] = useState({
     email: "",
     password: "",
@@ -38,6 +36,7 @@ const Login = ({ setUserState }) => {
       [name]: value,
     });
   };
+
   const validateForm = (values) => {
     const error = {};
     const regex = /^[^\s+@]+@[^\s@]+\.[^\s@]{2,}$/i;
@@ -52,69 +51,106 @@ const Login = ({ setUserState }) => {
     return error;
   };
 
-  const loginHandler = (e) => {
+  const loginHandler = async (e) => {
     e.preventDefault();
     getLocation();
-    setFormErrors(validateForm(user));
-    fetch("/loginR", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(user),
-    });
-    if(!formErrors){ setIsSubmit(true);}
-    if(setIsSubmit){
-        navigate("/receive");
+    const errors = validateForm(user);
+    setFormErrors(errors);
+  
+    if (Object.keys(errors).length === 0) {
+      try {
+        const response = await fetch("/loginR", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(user),
+        });
+        if (response.ok) {
+          const data = await response.json();
+          if (data.error) {
+            throw new Error(data.error);
+          } else {
+            setisRLoggedIn(true);
+            navigate("/receive");
+          }
+        } else {
+          const errorData = await response.text();
+          throw new Error(errorData);
+        }
+      } catch (error) {
+        setFormErrors({ backendError: error.message });
+      }
     }
   };
+    
+  useEffect(() => {
+    if (isRLoggedIn) {
+      navigate("/receive");
+    }
+
+    if(isDLoggedIn){
+      fetch("/logout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      setisDLoggedIn(false);
+      window.alert("You have been logged out Donater!");
+      navigate("/loginR");
+    }
+  }, [isRLoggedIn,isDLoggedIn,setisDLoggedIn, navigate]);
 
   return (
-    <div className="login-box">
+    <>
+    {!isRLoggedIn?(<><div className="login-box">
       <div className="login-image">
         <img src={Rlog} alt="" />
       </div>
       <div className="LoginContainer">
-        <form autoComplete="off">
-          <h1>Login</h1>
-          <label>
-            E-MAIL&nbsp;<i class="fa-solid fa-envelope"></i>
-          </label>
-          <input
-            type="email"
-            name="email"
-            id="email"
-            required
-            placeholder="Email"
-            onChange={changeHandler}
-            value={user.email}
-          />
-          <p className="pass">{formErrors.email}</p>
-          <label>
-            PASSWORD&nbsp;<i class="fa-solid fa-key"></i>
-          </label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            placeholder="Password"
-            onChange={changeHandler}
-            value={user.password}
-            required
-          />
-          <p className="password">{formErrors.password}</p>
-          <button type="submit" onClick={loginHandler}>
-            Login &nbsp;<i class="fa-solid fa-right-to-bracket"></i>
-          </button>{" "}
-          <br></br>
-          <div className="link_next">
-            <NavLink to="/RegisterR" className="link_next">
-              Not yet registered? Register Now
-            </NavLink>
-          </div>
-        </form>
+       <form>
+              <h1>Login</h1>
+              {formErrors.backendError && (
+                <p className="error-message">{formErrors.backendError}</p>
+              )}
+              <label>
+                E-MAIL&nbsp;<i className="fa-solid fa-envelope"></i>
+              </label>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                placeholder="Email"
+                onChange={changeHandler}
+                value={user.email}
+              />
+              {formErrors.email && <p className="pass">{formErrors.email}</p>}
+              <label>
+                PASSWORD&nbsp;<i className="fa-solid fa-key"></i>
+              </label>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                placeholder="Password"
+                onChange={changeHandler}
+                value={user.password}
+              />
+              <p className="password">{formErrors.password}</p>
+              <button type="submit" onClick={loginHandler}>
+                Login &nbsp;<i className="fa-solid fa-right-to-bracket"></i>
+              </button>{" "}
+              <br></br>
+              <div className="link_next">
+                <NavLink to="/registerR" className="link_next">
+                  Not yet registered? Register Now
+                </NavLink>
+              </div>
+            </form>
       </div>
-    </div>
+    </div></>):null}
+    </>
   );
 };
-export default Login;
+export default LoginR;

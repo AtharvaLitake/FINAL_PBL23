@@ -1,6 +1,5 @@
 import React from "react";
 import "./Cards.css";
-import imag from "../images/chapati.jpg";
 
 function Cards(props) {
   let { name, quantity, expiryDate, Item, shop, add, mobile,email } = props;
