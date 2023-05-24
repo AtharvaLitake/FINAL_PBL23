@@ -6,13 +6,11 @@ import { NavLink } from "react-router-dom";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useEffect } from 'react';
-function Animation()
-{
+
+export default function RD(props) {
   useEffect(()=>{
     AOS.init();
   },[])
-}
-export default function RD(props) {
   return (
     <div>
       <div className="receive-donate-heading">
